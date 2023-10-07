@@ -43,7 +43,6 @@ const addToCart = (userId, itemId, quantity) => {
     carts[userId].push({ itemId, quantity });
   }
 
-  
   return decreaseStockById(itemId, quantity);
 };
 const getUserCart = (userId) => {
@@ -69,7 +68,7 @@ const addUserOrder = (userId, userCart, cartTotal, appliedDiscount) => {
 const generateDiscountCode = () => {
   if (orderCount % DISCOUNT_ORDER_FREQUENCY === 0) {
     const discountCode = crypto.randomBytes(6).toString("hex");
-    discountCodes[discountCode] = { used: false};
+    discountCodes[discountCode] = { used: false };
     return discountCode;
   }
   return null;
@@ -82,9 +81,47 @@ const validateDiscountCode = (discountCode) => {
   return true;
 };
 const markDiscountCodeUsed = (discountCode) => {
- discountCodes[discountCode]={used:true};
-    
+  discountCodes[discountCode] = { used: true };
+};
+
+const getAllDiscountCodes = () => {
+  return Object.keys(discountCodes).map((code) => {
+    return { code: code, used: discountCodes[code].used };
+  });
+};
+
+const getStoreData = () => {
+  const allOrder = Object.keys(orders).reduce((acc, key) => {
+    acc.push(...orders[key]);
+    return acc;
+  }, []);
+
+  let totalPurchaseAmount = 0;
+  let totalDiscountAmount = 0;
+  let itemCount = {};
+  allOrder.forEach((order) => {
+    order.cart.forEach((product) => {
+      const itemId = product.itemId;
+      const quantity = product.quantity;
+
+      if (itemCount[itemId]) {
+        itemCount[itemId].count += quantity;
+      } else {
+        itemCount[itemId] = { count: quantity, item: getItemById(itemId) };
+      }
+    });
+    totalPurchaseAmount += order.total;
+    totalDiscountAmount += order.discount;
+  });
+  const discountCodes = getAllDiscountCodes();
+  const itemCountList = Object.values(itemCount);
+  return {
+    totalPurchaseAmount,
+    totalDiscountAmount,
+    discountCodes,
+    itemCountList,
   };
+};
 module.exports = {
   generateDiscountCode,
   validateDiscountCode,
@@ -94,5 +131,7 @@ module.exports = {
   addUserOrder,
   resetUsercart,
   getAllItems,
-  markDiscountCodeUsed
+  markDiscountCodeUsed,
+  getAllDiscountCodes,
+  getStoreData,
 };
