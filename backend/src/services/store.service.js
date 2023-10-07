@@ -1,23 +1,23 @@
 const crypto = require("crypto");
 const { DISCOUNT_ORDER_FREQUENCY } = require("../config");
-const items = [
+let items = [
   { id: 1, name: "Item 1", price: 100, stock: 100 },
   { id: 2, name: "Item 2", price: 200, stock: 50 },
   { id: 3, name: "Item 3", price: 500, stock: 100 },
   { id: 4, name: "Item 4", price: 1000, stock: 20 },
 ];
 
-const carts = {};
-const orders = {};
-const discountCodes = {};
+let carts = {};
+let orders = {};
+let discountCodes = {};
 let orderCount = 0;
 
 const getAllItems = () => {
-  return items;
+  return items ?? [];
 };
 const getItemById = (itemId) => {
   const item = items.find((i) => i.id === itemId);
-  return item;
+  return item ? item : null;
 };
 
 function decreaseStockById(id, quantity) {
@@ -33,6 +33,10 @@ function decreaseStockById(id, quantity) {
   throw new Error("Product not found");
 }
 const addToCart = (userId, itemId, quantity) => {
+  const item = getItemById(itemId);
+  if (quantity < 1) return false;
+  if (!item) return false;
+
   if (!carts[userId]) {
     carts[userId] = [];
   }
@@ -53,6 +57,8 @@ const resetUsercart = (userId) => {
 };
 
 const addUserOrder = (userId, userCart, cartTotal, appliedDiscount) => {
+  if (!userId || !userCart || isNaN(cartTotal) || isNaN(appliedDiscount))
+    return null;
   orderCount++;
   if (!orders[userId]) {
     orders[userId] = [];
@@ -63,6 +69,7 @@ const addUserOrder = (userId, userCart, cartTotal, appliedDiscount) => {
     total: cartTotal,
     discount: appliedDiscount,
   });
+  return orders;
 };
 
 const generateDiscountCode = () => {
@@ -81,7 +88,9 @@ const validateDiscountCode = (discountCode) => {
   return true;
 };
 const markDiscountCodeUsed = (discountCode) => {
+  if (!discountCode) return null;
   discountCodes[discountCode] = { used: true };
+  return discountCodes[discountCode];
 };
 
 const getAllDiscountCodes = () => {
@@ -122,6 +131,19 @@ const getStoreData = () => {
     itemCountList,
   };
 };
+
+const setItems = (value) => {
+  items = value;
+};
+const setOrders = (value) => {
+  orders = value;
+};
+const setOrderCount = (value) => {
+  if (!isNaN(value)) orderCount = value;
+};
+const setDiscountCodes = (value) => {
+  discountCodes = value;
+};
 module.exports = {
   generateDiscountCode,
   validateDiscountCode,
@@ -134,4 +156,14 @@ module.exports = {
   markDiscountCodeUsed,
   getAllDiscountCodes,
   getStoreData,
+  items,
+  carts,
+  orders,
+  orderCount,
+  discountCodes,
+  setItems,
+  decreaseStockById,
+  setOrders,
+  setOrderCount,
+  setDiscountCodes,
 };
