@@ -1,5 +1,4 @@
-// src/authContext.tsx
-import  { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 import { User } from "../types";
 type AuthContextType = {
@@ -16,11 +15,11 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-
+  // user login
   const login = (newUser: User) => {
     setUser(newUser);
   };
-
+  // user logout
   const logout = () => {
     setUser(null);
   };
@@ -31,7 +30,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   );
 }
-
+/**
+ * custom hook for using AuthContext value
+ *
+ */
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {

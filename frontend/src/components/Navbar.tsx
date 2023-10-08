@@ -5,14 +5,18 @@ import { useEffect } from "react";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const { cart, toggleShowCheckout, getCart } = useUserContext();
+
+  // fetching cart when new user login
   useEffect(() => {
     if (user?.id) getCart(user.id);
   }, [user]);
+
   return (
     <nav className="bg-blue-500 p-2">
       <div className=" flex justify-between items-center">
         <div className="text-white font-bold text-lg">E-STORE </div>
         <div className="flex items-center p-1">
+          {/* cart icon with badge */}
           {user?.role == "user" && (
             <div
               className="relative bg-white mr-4 p-1 rounded"
@@ -24,6 +28,7 @@ const Navbar = () => {
               </div>
             </div>
           )}
+          {/* user/admin logout button */}
           {user && (
             <button
               onClick={logout}

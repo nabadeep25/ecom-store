@@ -9,4 +9,4 @@
   #### Frontend
  1. go to backend folder ```cd frontend ```
  2. create .env file in the backend folder from sample.env ```cp sample.env .env```
- 3. run ``` npm run build  ``` and ```npm run preview```
+ 3. run ``` npm run build  ``` and ```npm run preview```  or ```npm run dev ```

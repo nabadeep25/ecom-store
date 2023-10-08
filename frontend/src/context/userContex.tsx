@@ -33,7 +33,10 @@ type UserContextType = {
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
-
+/**
+ * custom hook for using UserContext value
+ *
+ */
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {
@@ -47,15 +50,18 @@ type UserProviderProps = {
 };
 
 export const UserProvider = ({ children }: UserProviderProps) => {
+  // state for storing items ,user cart
   const [items, setItems] = useState<Item[]>([]);
   const [cart, setCart] = useState<UserCart[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  // state for managing checkout modal
   const [showCheckout, setShowCheckout] = useState(false);
 
   const toggleShowCheckout = () => {
     setShowCheckout((prev) => !prev);
   };
-  useEffect(() => {
+  // fetch all items
+  const getItems = () => {
     fetchAllItems()
       .then((data) => {
         setItems(data.items);
@@ -64,8 +70,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       .catch((_error) => {
         setIsLoading(false);
       });
+  };
+  useEffect(() => {
+    getItems();
   }, []);
-
+  // function to get user cart
   const getCart = (userId: number) => {
     fetchUsercart(userId)
       .then((data) => {
@@ -76,6 +85,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         setIsLoading(false);
       });
   };
+  //function to  add  item to user cart
   const addToUserCart = (payload: Cart) => {
     addToCart(payload)
       .then((data) => {
@@ -86,11 +96,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         toast.error("failed to add Item to the cart");
       });
   };
+  //  function to checkout user cart
   const userCheckout = (payload: Checkout) => {
     checkout(payload)
       .then((data) => {
         toast.success(data.message ?? "Order placed successfully");
         getCart(payload.userId);
+        getItems();
         setIsLoading(false);
         toggleShowCheckout();
       })

@@ -10,6 +10,7 @@ type ItemProps = {
 const ItemCard = ({ item, handleAddToCart }: ItemProps) => {
   return (
     <div className=" card border bg-slate-100 p-2 m-2">
+      {/* Item image */}
       <figure>
         <img
           src={item.image}
@@ -17,11 +18,14 @@ const ItemCard = ({ item, handleAddToCart }: ItemProps) => {
           className="object-cover h-36 w-full"
         />
       </figure>
+      {/* card body */}
       <div className="card-body p-2">
         <h3>{item.name}</h3>
         <p>Price: {item.price}</p>
         <p>Stock: {item.stock}</p>
+        {/* Rating */}
         <Rating rating={5} />
+        {/* Card action area */}
         <div className="flex justify-end">
           <button
             onClick={() => handleAddToCart(item.id)}
@@ -41,6 +45,7 @@ const ItemCard = ({ item, handleAddToCart }: ItemProps) => {
 const ItemList: React.FC = () => {
   const { items, addToUserCart } = useUserContext();
   const { user } = useAuth();
+  // adding item to user cart
   const handleAddToCart = (itemId: number, quantity: number = 1) => {
     if (user?.id) {
       const payload = {

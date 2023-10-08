@@ -4,7 +4,9 @@ import ItemList from "./Itemlist";
 const Home = () => {
   return (
     <div>
+      {/* Item list */}
       <ItemList />
+      {/* Checkout popup */}
       <CheckoutModal />
     </div>
   );

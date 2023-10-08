@@ -11,6 +11,7 @@ function AdminStats() {
     <div className="p-4 ">
       <div className="flex  justify-between m-4">
         <h2 className="text-2xl font-semibold mb-4">Purchase Summary</h2>
+        {/** For refeshing the data without reload */}
         <button className="btn btn-primary btn-sm" onClick={refetch}>
           Refresh
         </button>

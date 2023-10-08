@@ -53,7 +53,14 @@ describe("getItemById", () => {
   it("should return an item object when a valid itemId is passed", () => {
     const itemId = 1;
     const result = getItemById(itemId);
-    expect(result).toEqual({ id: 1, name: "Item 1", price: 100, stock: 100 });
+    expect(result).toEqual({
+      id: 1,
+      name: "Nike Green",
+      price: 100,
+      stock: 100,
+      image:
+        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80",
+    });
   });
 
   it("should return null when an invalid itemId is passed", () => {

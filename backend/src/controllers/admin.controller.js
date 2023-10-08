@@ -3,6 +3,12 @@ const {
   getStoreData,
 } = require("../services/store.service");
 
+/**
+ * Controller function for store purchase statistics
+ * @param {*} req
+ * @param {*} res
+ *
+ */
 const getStoreStats = (req, res) => {
   try {
     const stats = getStoreData();
@@ -18,6 +24,12 @@ const getStoreStats = (req, res) => {
       .json({ success: false, message: "Internal server error" });
   }
 };
+/**
+ * Controller function for fetching all discount codes
+ * @param {*} req
+ * @param {*} res
+ *
+ */
 const getDiscountCodes = (req, res) => {
   try {
     let codes = getAllDiscountCodes();

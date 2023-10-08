@@ -8,7 +8,7 @@ type PrivateRouteProps = {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { user } = useAuth();
-
+  // only logged in used will be able to acces private page
   return user ? children : <Navigate to="/login" />;
 };
 

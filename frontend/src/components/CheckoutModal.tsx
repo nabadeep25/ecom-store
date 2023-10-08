@@ -1,4 +1,4 @@
-import  { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useUserContext } from "../context/userContex";
 import { useAuth } from "../context/authContext";
 import toast from "react-hot-toast";
@@ -18,6 +18,7 @@ const CheckoutModal = () => {
         payload.discountCode = code;
       }
       userCheckout(payload);
+      // reset discount code field after checkout
       setCode("");
     } else {
       toast.error("Please login first");
@@ -27,7 +28,7 @@ const CheckoutModal = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
   };
-
+  // calculate total cart price
   const calculateTotal = () => {
     return cart.reduce(
       (total, cartItem) => total + cartItem.item.price * cartItem.quantity,
@@ -45,6 +46,7 @@ const CheckoutModal = () => {
             <h2 className="text-2xl font-semibold mb-4">Your Cart</h2>
             <X onClick={toggleShowCheckout} />
           </div>
+          {/** cart information */}
           <ul>
             {cart.map((cartItem) => (
               <li key={cartItem.itemId} className="mb-2 flex items-center">
@@ -59,6 +61,7 @@ const CheckoutModal = () => {
             ))}
           </ul>
           <p className="mt-4">Total: {total}</p>
+
           {cart.length < 1 && (
             <div className="alert alert-warning p-1 rounded">
               <span>Cart is empty! Please add items </span>

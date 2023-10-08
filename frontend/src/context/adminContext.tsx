@@ -29,7 +29,10 @@ type AdminContextType = {
 };
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
-
+/**
+ * custom hook for using AdminContext value
+ *
+ */
 export const useAdminContext = () => {
   const context = useContext(AdminContext);
   if (!context) {
@@ -43,6 +46,7 @@ type AdminProviderProps = {
 };
 
 export const AdminProvider = ({ children }: AdminProviderProps) => {
+  // state for storing discount codes and stats
   const [discountCodes, setDiscountCodes] = useState<DiscountCode[]>([]);
   const [stats, setStats] = useState<Stats>({
     totalPurchaseAmount: 0,
@@ -52,6 +56,7 @@ export const AdminProvider = ({ children }: AdminProviderProps) => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [fetchCount, setFetchCount] = useState(1);
+  // for triggering refetch for stats
   const refetch = () => {
     setFetchCount((prev) => prev + 1);
   };
@@ -62,7 +67,6 @@ export const AdminProvider = ({ children }: AdminProviderProps) => {
         setIsLoading(false);
       })
       .catch((_error) => {
-
         setIsLoading(false);
       });
 

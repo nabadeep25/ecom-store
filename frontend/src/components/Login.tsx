@@ -7,14 +7,17 @@ const LoginScreen = () => {
   const [userId, setUserId] = useState<number>(1);
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let userId = parseInt(e.target.value);
+    // user id should be positive integer
     if (userId <= 0) userId = 1;
     setUserId(userId);
   };
   const handleLogin = () => {
     const user = { id: userId, role };
     login(user);
+    // redirect after login
     navigate(`${role == "admin" ? "/admin" : "/"}`);
   };
 
@@ -22,6 +25,7 @@ const LoginScreen = () => {
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="card w-96 bg-white shadow-xl p-10">
         <h2 className="text-2xl mb-4 text-black text-center">Login</h2>
+        {/* user role select */}
         <div className="form-control w-full max-w-xs">
           <label className="label">
             <span className="label-text">User Role</span>
@@ -35,6 +39,7 @@ const LoginScreen = () => {
             <option value="admin">Admin</option>
           </select>
         </div>
+        {/* user id input */}
         {role == "user" && (
           <div className="form-control w-full max-w-xs">
             <label className="label">
