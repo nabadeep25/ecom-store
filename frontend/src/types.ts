@@ -1,5 +1,5 @@
 type User = {
-  id: string;
+  id: number;
   role: "admin" | "user";
 };
 
@@ -8,10 +8,15 @@ type DiscountCode = {
   used: boolean;
 };
 type Item = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   stock?: number;
+  image: string;
 };
-
-export type { User, DiscountCode, Item };
+type Cart = { userId: number; itemId: number; quantity: number };
+type Checkout = {
+  userId: number;
+  discountCode?: string;
+};
+export type { User, DiscountCode, Item, Cart, Checkout };

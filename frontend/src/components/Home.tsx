@@ -1,10 +1,11 @@
+import CheckoutModal from "./CheckoutModal";
+import ItemList from "./Itemlist";
 
 const Home = () => {
-
   return (
     <div>
-      <h1>Welcome, User!</h1>
-      
+      <ItemList />
+      <CheckoutModal />
     </div>
   );
 };

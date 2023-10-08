@@ -33,7 +33,7 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined);
 export const useAdminContext = () => {
   const context = useContext(AdminContext);
   if (!context) {
-    throw new Error("useAdminContext must be used within a ProductProvider");
+    throw new Error("useAdminContext must be used within a AdminProvider");
   }
   return context;
 };

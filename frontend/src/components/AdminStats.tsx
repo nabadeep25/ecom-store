@@ -51,11 +51,21 @@ function AdminStats() {
           <p className="text-2xl font-semibold text-center">Item Purchased:</p>
           <ul>
             {stats.itemCountList.map((itemCount) => (
-              <li key={itemCount.item.id}>
-                <p className="">
-                  {itemCount.item.name} ({itemCount.count}x) Price:{" "}
-                  {itemCount.item.price} Stock left: {itemCount.item.stock}
-                </p>
+              <li key={itemCount.item.id} className="flex items-center mt-1">
+                <img
+                  src={itemCount.item.image}
+                  alt={itemCount.item.name}
+                  className="w-16 h-16 object-cover mr-2 rounded"
+                />
+                <div className="flex flex-col">
+                  <p className="font-semibold">
+                    {itemCount.item.name}, Sold: {itemCount.count}{" "}
+                  </p>
+                  <p className="text-gray-500">
+                    Price: {itemCount.item.price} , Stock left:{" "}
+                    {itemCount.item.stock}
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
