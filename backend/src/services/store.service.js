@@ -1,10 +1,10 @@
 const crypto = require("crypto");
 const { DISCOUNT_ORDER_FREQUENCY } = require("../config");
 let items = [
-  { id: 1, name: "Item 1", price: 100, stock: 100 },
-  { id: 2, name: "Item 2", price: 200, stock: 50 },
-  { id: 3, name: "Item 3", price: 500, stock: 100 },
-  { id: 4, name: "Item 4", price: 1000, stock: 20 },
+  { id: 1, name: "Nike Green", price: 100, stock: 100, image:'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80' },
+  { id: 2, name: "Nike White", price: 200, stock: 50 ,image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80'},
+  { id: 3, name: "Nike black", price: 500, stock: 100 ,image:'https://images.unsplash.com/photo-1543508282-6319a3e2621f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2030&q=80'},
+  { id: 4, name: "Bata Brown", price: 1000, stock: 20,image:'https://images.unsplash.com/photo-1531310197839-ccf54634509e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1965&q=80' },
 ];
 
 let carts = {};
@@ -13,11 +13,11 @@ let discountCodes = {};
 let orderCount = 0;
 
 const getAllItems = () => {
-  return items ?? [];
+  return items.slice() ?? [];
 };
 const getItemById = (itemId) => {
   const item = items.find((i) => i.id === itemId);
-  return item ? item : null;
+  return item ? Object.assign({},item) : null;
 };
 
 function decreaseStockById(id, quantity) {
